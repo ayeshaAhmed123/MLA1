@@ -3,7 +3,7 @@ pipeline {
         registry = "ayeshaahmed123/mlops_assignment1"
         registryCredential = 'git'
         dockerImage = ''
-        image_name = 'FlaskApp_hamza_ayesha'
+        image_name = 'flaskApp_hamza_ayesha'
         image_tag = 'latest' 
     }
     agent any
