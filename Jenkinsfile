@@ -29,9 +29,9 @@ pipeline {
             }
             post {
                 success {
-                    emailext body: 'Your Docker image has been successfully pushed to DockerHub.',
-                             subject: 'Docker Image Pushed Successfully',
-                             to: 'ahmedayesha2402@gmail.com'
+                    mail to: 'ahmedayesha2402@gmail.com',
+                        subject: "Successful Docker Image pushed to dokcerhub",
+                        body: "The Docker image ${IMAGE_NAME}:${TAG} has been built and pushed successfully."
                 }
             }
         }
