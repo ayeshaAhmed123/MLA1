@@ -1,8 +1,7 @@
 pipeline {
     environment {
-        registry = "ayeshaahmed123/mlops_assignment1"
         registryCredential = 'git'
-        IMAGE_NAME = 'ayeshahamza/flaskapp'
+        IMAGE_NAME = 'ayeshaahmed123/mlops_assignment1'
         TAG = 'latest' 
     }
     agent any
