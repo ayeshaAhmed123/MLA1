@@ -27,21 +27,10 @@ pipeline {
                         dockerImage.push()
                     }
                 }
+                emailext body: 'Your Docker image has been successfully pushed to DockerHub.',
+                             subject: 'Docker Image Pushed Successfully',
+                             to: 'ahmedayesha2402@gmail.com'
             }
-        }
-    }
-    post {
-        success {
-            // Notifying the administrator via email on success
-            emailext body: "Your Docker image ${registry}/${image_name}:${image_tag} has been successfully pushed to DockerHub.",
-                     subject: 'Docker Image Pushed Successfully',
-                     to: 'i202424@nu.edu.pk'
-        }
-        failure {
-            // Notifying the administrator via email on failure
-            emailext body: "There was a problem building or pushing the Docker image ${registry}/${image_name}:${image_tag}.",
-                     subject: 'Docker Image Build Failed',
-                     to: 'i202424@nu.edu.pk'
         }
     }
 }
