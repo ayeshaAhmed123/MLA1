@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registry = "ayeshaahmed123/mlops_assignment1"
-        registryCredential = 'dockerhub_credentials'
+        registryCredential = 'git'
         IMAGE_NAME = 'ayeshahamza/flaskapp'
         TAG = 'latest' 
     }
