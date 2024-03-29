@@ -29,14 +29,13 @@ pipeline {
         }
     }
     post {
-        success {
-            script {
-                def customMessage = "The docker image successfully pushed to Dockerhub!"
-                step([$class: 'Mailer', 
-                      recipients: 'ahmedayesha2402@gmail.com', 
-                      subject: 'Build Successful',
-                      body: customMessage])
-            }
-        }
+    success {
+        emailext(
+            to: 'ahmedayesha2402@gmail.com',
+            subject: 'Build Successful',
+            body: 'The docker image successfully pushed to Dockerhub!',
+        )
     }
+}
+
 }
