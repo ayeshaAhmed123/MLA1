@@ -25,14 +25,17 @@ pipeline {
                         docker.image("${IMAGE_NAME}:${TAG}").push()
                     }
                 }
-                // This is where the emailext step should be placed
             }
-            post {
-                success {
-                    mail to: 'ahmedayesha2402@gmail.com',
-                        subject: "Successful Docker Image pushed to dokcerhub",
-                        body: "The Docker image ${IMAGE_NAME}:${TAG} has been built and pushed successfully."
-                }
+        }
+    }
+    post {
+        success {
+            script {
+                def customMessage = "The docker image successfully pushed to Dockerhub!"
+                step([$class: 'Mailer', 
+                      recipients: 'ahmedayesha2402@gmail.com', 
+                      subject: 'Build Successful',
+                      body: customMessage])
             }
         }
     }
