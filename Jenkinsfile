@@ -1,45 +1,10 @@
-// pipeline {
-//     environment {
-//         registry = "ayeshaahmed123/mlops_assignment1"
-//         registryCredential = 'git'
-//         dockerImage = ''
-//     }
-//     agent any
-//     stages {
-//         stage('Cloning our Git') {
-//             steps {
-//                 git 'https://github.com/ayeshaAhmed123/mlopsA1practice.git'
-//             }
-//         }
-//         stage('Building our image') {
-//             steps {
-//                 script {
-//                     dockerImage = docker.build registry + ":$BUILD_NUMBER"
-//                 }
-//             }
-//         }
-//         stage('Deploy our image') {
-//             steps {
-//                 script {
-//                     docker.withRegistry('', registryCredential) {
-//                         dockerImage.push()
-//                     }
-//                 }
-//             }
-//         }
-//         stage('Cleaning up') {
-//             steps {
-//                 sh "docker rmi $registry:$BUILD_NUMBER"
-//             }
-//         }
-//     }
-// }
 pipeline {
     environment {
         registry = "ayeshaahmed123/mlops_assignment1"
         registryCredential = 'git'
         dockerImage = ''
-        recipient_email = 'i202424@nu.edu.pk'
+        image_name = 'FlaskApp_hamza_ayesha'
+        image_tag = 'latest' 
     }
     agent any
     stages {
@@ -51,7 +16,7 @@ pipeline {
         stage('Building our image') {
             steps {
                 script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build("${registry}/${image_name}:${image_tag}")
                 }
             }
         }
@@ -61,13 +26,22 @@ pipeline {
                     docker.withRegistry('', registryCredential) {
                         dockerImage.push()
                     }
-                    // Sending email notification on successful push
-                    emailext body: 'Your Docker image has been successfully pushed to DockerHub.',
-                             recipientProviders: [[$class: 'DevelopersRecipientProvider']],
-                             subject: 'Docker Image Pushed Successfully',
-                             to: recipient_email
                 }
             }
+        }
+    }
+    post {
+        success {
+            // Notifying the administrator via email on success
+            emailext body: "Your Docker image ${registry}/${image_name}:${image_tag} has been successfully pushed to DockerHub.",
+                     subject: 'Docker Image Pushed Successfully',
+                     to: 'i202424@nu.edu.pk'
+        }
+        failure {
+            // Notifying the administrator via email on failure
+            emailext body: "There was a problem building or pushing the Docker image ${registry}/${image_name}:${image_tag}.",
+                     subject: 'Docker Image Build Failed',
+                     to: 'i202424@nu.edu.pk'
         }
     }
 }
