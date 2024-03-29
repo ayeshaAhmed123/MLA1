@@ -1,7 +1,8 @@
 pipeline {
     environment {
-        registry = "ayeshaahmed123/mlops_assignment1"
-        registryCredential = 'git'
+        registry = "docker.io"
+        repository = "ayeshaahmed123/mlops_assignment1"
+        registryCredential = 'dockerhub_credentials'
         dockerImage = ''
         image_name = 'flaskapp_hamza_ayesha'
         image_tag = 'latest' 
@@ -16,7 +17,7 @@ pipeline {
         stage('Building our image') {
             steps {
                 script {
-                    dockerImage = docker.build("${registry}/${image_name}:${image_tag}")
+                    dockerImage = docker.build("${registry}/${repository}/${image_name}:${image_tag}")
                 }
             }
         }
